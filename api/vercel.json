@@ -9,3 +9,7 @@
     { "src": "/(.*)", "dest": "public/$1" }
   ]
 }
+# Add this to package.json
+"dependencies": {
+  "yt-dlp-exec": "^1.0.0"
+}
