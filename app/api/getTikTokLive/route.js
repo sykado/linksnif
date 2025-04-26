@@ -1,17 +1,17 @@
-import fetch from 'node-fetch';
+import { NextResponse } from 'next/server';
 import { JSDOM } from 'jsdom';
 
-export default async function handler(req, res) {
-  const { username } = req.query;
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const username = searchParams.get('username');
 
   if (!username) {
-    return res.status(400).json({ error: 'Missing username' });
+    return NextResponse.json({ error: 'Missing username' }, { status: 400 });
   }
 
   try {
-    const response = await fetch(`https://www.tiktok.com/@${username}/live`);
-    const html = await response.text();
-
+    const res = await fetch(`https://www.tiktok.com/@${username}/live`);
+    const html = await res.text();
     const dom = new JSDOM(html);
     const scripts = dom.window.document.querySelectorAll('script');
 
@@ -29,19 +29,18 @@ export default async function handler(req, res) {
     }
 
     if (!liveData) {
-      return res.status(404).json({ error: 'User is not live or no live data found' });
+      return NextResponse.json({ error: 'User is not live or no live data found' }, { status: 404 });
     }
 
     const streamUrl = liveData?.stream_url?.live_core_sdk_data?.pull_data?.stream_data?.hls_pull_url;
 
     if (!streamUrl) {
-      return res.status(404).json({ error: 'Stream URL not found' });
+      return NextResponse.json({ error: 'Stream URL not found' }, { status: 404 });
     }
 
-    return res.status(200).json({ streamUrl });
-
+    return NextResponse.json({ streamUrl });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
