@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Live Stream Caster</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 TikTok Live Stream Caster</h1>
+        <p>Enter a TikTok live URL to extract the stream link for casting:</p>
+        
+        <div class="input-group">
+            <input type="text" id="tiktokUrl" placeholder="https://www.tiktok.com/@username/live">
+            <button id="extractBtn">Extract URL</button>
+        </div>
+        
+        <div id="result" class="hidden">
+            <h3>Stream URL (HLS):</h3>
+            <textarea id="streamUrl" readonly></textarea>
+            <div class="buttons">
+                <button id="copyBtn">📋 Copy</button>
+                <button id="openVlcBtn">▶️ Open in VLC</button>
+            </div>
+        </div>
+        
+        <div id="error" class="error hidden"></div>
+        
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ol>
+                <li>Paste a TikTok <strong>live stream URL</strong> above.</li>
+                <li>Manually extract the HLS URL using <code>yt-dlp -g "URL"</code> (requires <a href="https://github.com/yt-dlp/yt-dlp" target="_blank">yt-dlp</a> installed locally).</li>
+                <li>Paste the result into media players like VLC or casting apps.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
